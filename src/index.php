@@ -55,7 +55,13 @@ if(substr($navigation_dir, -1) != "/"){
 
         // GET MIME 
         $mime_file = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $navigation_dir);
-        
+        $extension = pathinfo($navigation_dir, PATHINFO_EXTENSION);
+
+	// jpt fix - css not being given right mime type
+        if ($extension === "css") {
+            $mime_file = "text/css";
+        }
+
         // Direct download
         if($mime_file == "inode/x-empty" || $mime_file == ""){
             header('Content-Description: File Transfer');
